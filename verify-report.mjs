@@ -1,0 +1,78 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+
+import {dirname,resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+fs.mkdirSync(root+'/.test-output',{recursive:true});
+const html=fs.readFileSync(root+'/index.html','utf8');
+const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
+assert.equal(scripts.length,2);
+const stub=fs.readFileSync(root+'/tests/dom-stub.js','utf8')+`
+globalThis.document.body={appendChild(){}};
+globalThis.document.querySelectorAll=()=>[];
+const create=globalThis.document.createElement;
+globalThis.document.createElement=selector=>{const e=create(selector);e.remove=()=>{};return e;};
+`;
+function open(fixture){const c=vm.createContext({console});new vm.Script(stub).runInContext(c);if(fixture){c.fixture=fixture;vm.runInContext('savedValue=fixture',c);}for(const source of scripts)new vm.Script(source).runInContext(c);return c;}
+const c=open();let n=0;
+function check(code,message){assert.equal(vm.runInContext(code,c),true,message);n++;}
+check('practice.length===83 && exitQuestions.length===12','fixed practice and longer ticket');
+check('reading.length===24 && reading.every(q=>q.options.length===2)','two-category full reading');
+check('exitQuestions.every(q=>EXIT_BANK.verbs[q.verb].aux==="avoir")','avoir only');
+check('exitQuestions.every(q=>["-er","-ir","-re"].includes(EXIT_BANK.verbs[q.verb].family))','selected regular model families');
+check('EXIT_BANK.sections.length===5 && new Set(exitQuestions.map(q=>q.id)).size===12','five exercises, unique item IDs');
+check('norm("  J’AI PHOTOGRAPHIÉ LA TOUR EIFFEL. ")===norm("J’ai photographié la tour Eiffel.")','normalization tolerates case, spaces and punctuation');
+check('norm("visite")!==norm("visité")','accent errors count');
+check('!stageExit().includes("Réponse attendue") && !stageExit().includes("Le modèle à observer")','no corrections before initial submission');
+check('Object.values(state.responses).length===0','draft-free fresh state');
+vm.runInContext(`
+state.name='Élève exemple (données fictives)';state.className='7B (exemple)';state.partner='Noor (exemple)';
+state.observation='Avoir change avec le sujet ; le participe passé suit le modèle étudié.';
+state.creative='Nous avons admiré les jardins.';state.question='Je veux encore revoir les formes de vous.';
+answer(reading[0],'passé composé');answer(reading[0],reading[0].answer);
+for(const q of practice)if(!solved(q))answer(q,q.answer);
+globalThis.values=Object.fromEntries(exitQuestions.map(q=>[q.id,q.answer]));
+values.xt01='as';values.xt03='visiter';values.xt08='ont vendé';values.xt09='Vous a regardé le spectacle.';
+`,c);
+check('stats(practice).final===83 && stats(practice).first===82','practice preserves first errors');
+check('submitExit({...values,xt12:""})===false && state.exit===null','blank batch does not create partial attempts');
+check('submitExit(values)===true && exitMetrics().first===8','12-item batch grades initial result');
+check('exitMetrics().attempts===12 && exitMetrics().errors===4','one submitted response per initial item');
+check('submitExit(values)===false && exitMetrics().attempts===12','initial batch cannot duplicate attempts');
+check('retryExit("xt02","avez")===false && exitMetrics().attempts===12','correct answers are locked');
+check('retryExit("xt01","a")===true && exitRecords(exitQuestions[0])[1].feedbackSeen===true','retry after feedback is flagged');
+check('stageExit().includes("Modèle à observer")','model appears after two errors');
+check('retryExit("xt01","ai")===true && exitRecords(exitQuestions[0])[2].modelSeen===true','response after model is flagged');
+check('retryExit("xt03","visite")===true && retryExit("xt03","visité")===true','missing accent fails, correction retained');
+check('retryExit("xt08","ont vendu")===true && !exitRecords(exitQuestions[7])[1].modelSeen','successful second try without model');
+check('exitMetrics().first===8 && exitMetrics().final===11 && exitMetrics().attempts===17','first score never overwritten by corrections');
+check('exitMetrics().errors===6 && allMetrics().attempts===101 && allMetrics().retries===6','accurate total responses, errors and retries');
+check('report().includes("Vous a regardé le spectacle.") && report().includes("Vous avez regardé le spectacle.")','report includes student answer and expected correction');
+check('report().includes("visiter") && report().includes("visite") && report().includes("visité")','all successive attempts retained');
+check('csv().split("\\r\\n").length===102','CSV has one row per submitted response plus header');
+check('!report().includes("data:image/")','report excludes meme images');
+check('finishExit()===true && state.tab===6 && !!state.exit.finishedAt','finish opens final report');
+check('retryExit("xt09","Vous avez regardé le spectacle.")===false','finalized ticket cannot change');
+check('finishExit()===false','double finish is harmless');
+const initialFixture=vm.runInContext('JSON.stringify(state)',c);
+const restored=open(initialFixture);
+assert.equal(vm.runInContext('exitMetrics().attempts',restored),17);n++;
+assert.equal(vm.runInContext('exitMetrics().first',restored),8);n++;
+const old=JSON.parse(initialFixture);old.exit={correct:2,answers:{e1:{answer:'ont',correct:true}},time:new Date().toISOString()};
+const migrated=open(JSON.stringify(old));
+assert.equal(vm.runInContext('state.exit===null && state.legacyExit.correct===2 && stats(practice).final===83',migrated),true);n++;
+const original=JSON.parse(fs.readFileSync(root+'/tests/fixtures/original-reading.json','utf8'));
+assert.equal(vm.runInContext('fullStory.map(p=>p.text).join("")',c),original);n++;
+const bytes=await vm.runInContext('buildPdfBytes()',c);
+assert.equal(Buffer.from(bytes).subarray(0,5).toString(),'%PDF-');n++;
+fs.writeFileSync(root+'/.test-output/Example_Student_Report.pdf',bytes);
+fs.writeFileSync(root+'/.test-output/report-sample-state.json',initialFixture);
+assert.deepEqual(JSON.parse(fs.readFileSync(root+'/Exit_Ticket_Question_Bank.json','utf8')),JSON.parse(vm.runInContext('JSON.stringify(EXIT_BANK)',c)));n++;
+// Long text and many retries exercise wrapping and multi-page table continuation.
+vm.runInContext(`state.responses.xt09=Array.from({length:25},(_,i)=>({answer:('Une réponse de test très longue avec accents é à ç. ').repeat(8)+i,correct:false,feedbackSeen:true,time:new Date().toISOString()}));state.question='Écriture et apostrophes : œ, É, ça, l’élève. Un caractère hors police : 😀.';`,c);
+const stress=await vm.runInContext('buildPdfBytes()',c);assert.ok(stress.length>1000);n++;
+fs.writeFileSync(root+'/.test-output/report-stress.pdf',stress);
+check('csvCell("=FORMULA()").startsWith("\\\"\u0027")','CSV neutralizes spreadsheet formulas');
+console.log(JSON.stringify({result:'PASS',checks:n,samplePDFBytes:bytes.length,stressPDFBytes:stress.length,questions:12,sections:5}));

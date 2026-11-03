@@ -1,0 +1,231 @@
+{
+  "NEON_BANK": {
+    "version": 1,
+    "auxiliary": "avoir",
+    "sectors": [
+      "Les Archives",
+      "Le Relais",
+      "Le Terminal",
+      "La Passerelle"
+    ],
+    "verbs": [
+      {
+        "id": "neon_01",
+        "verb": "visiter",
+        "pp": "visité",
+        "family": "-er",
+        "subject": "Je",
+        "aux": "ai",
+        "object": "le musée miniature",
+        "sector": 0
+      },
+      {
+        "id": "neon_02",
+        "verb": "finir",
+        "pp": "fini",
+        "family": "-ir",
+        "subject": "Tu",
+        "aux": "as",
+        "object": "la réparation",
+        "sector": 0
+      },
+      {
+        "id": "neon_03",
+        "verb": "attendre",
+        "pp": "attendu",
+        "family": "-re",
+        "subject": "Il",
+        "aux": "a",
+        "object": "le signal",
+        "sector": 0
+      },
+      {
+        "id": "neon_04",
+        "verb": "regarder",
+        "pp": "regardé",
+        "family": "-er",
+        "subject": "Nous",
+        "aux": "avons",
+        "object": "l’écran",
+        "sector": 0
+      },
+      {
+        "id": "neon_05",
+        "verb": "choisir",
+        "pp": "choisi",
+        "family": "-ir",
+        "subject": "Vous",
+        "aux": "avez",
+        "object": "un itinéraire",
+        "sector": 0
+      },
+      {
+        "id": "neon_06",
+        "verb": "vendre",
+        "pp": "vendu",
+        "family": "-re",
+        "subject": "Elles",
+        "aux": "ont",
+        "object": "les billets",
+        "sector": 1
+      },
+      {
+        "id": "neon_07",
+        "verb": "photographier",
+        "pp": "photographié",
+        "family": "-er",
+        "subject": "Je",
+        "aux": "ai",
+        "object": "le relais",
+        "sector": 1
+      },
+      {
+        "id": "neon_08",
+        "verb": "réussir",
+        "pp": "réussi",
+        "family": "-ir",
+        "subject": "Tu",
+        "aux": "as",
+        "object": "la mission",
+        "sector": 1
+      },
+      {
+        "id": "neon_09",
+        "verb": "répondre",
+        "pp": "répondu",
+        "family": "-re",
+        "subject": "Elle",
+        "aux": "a",
+        "object": "au message",
+        "sector": 1
+      },
+      {
+        "id": "neon_10",
+        "verb": "admirer",
+        "pp": "admiré",
+        "family": "-er",
+        "subject": "Nous",
+        "aux": "avons",
+        "object": "les monuments",
+        "sector": 1
+      },
+      {
+        "id": "neon_11",
+        "verb": "remplir",
+        "pp": "rempli",
+        "family": "-ir",
+        "subject": "Vous",
+        "aux": "avez",
+        "object": "le formulaire",
+        "sector": 2
+      },
+      {
+        "id": "neon_12",
+        "verb": "perdre",
+        "pp": "perdu",
+        "family": "-re",
+        "subject": "Ils",
+        "aux": "ont",
+        "object": "le code",
+        "sector": 2
+      },
+      {
+        "id": "neon_13",
+        "verb": "écouter",
+        "pp": "écouté",
+        "family": "-er",
+        "subject": "Je",
+        "aux": "ai",
+        "object": "le message",
+        "sector": 2
+      },
+      {
+        "id": "neon_14",
+        "verb": "réfléchir",
+        "pp": "réfléchi",
+        "family": "-ir",
+        "subject": "Tu",
+        "aux": "as",
+        "object": "au problème",
+        "sector": 2
+      },
+      {
+        "id": "neon_15",
+        "verb": "entendre",
+        "pp": "entendu",
+        "family": "-re",
+        "subject": "On",
+        "aux": "a",
+        "object": "le signal",
+        "sector": 2
+      },
+      {
+        "id": "neon_16",
+        "verb": "explorer",
+        "pp": "exploré",
+        "family": "-er",
+        "subject": "Nous",
+        "aux": "avons",
+        "object": "le réseau",
+        "sector": 3
+      },
+      {
+        "id": "neon_17",
+        "verb": "agir",
+        "pp": "agi",
+        "family": "-ir",
+        "subject": "Vous",
+        "aux": "avez",
+        "object": "rapidement",
+        "sector": 3
+      },
+      {
+        "id": "neon_18",
+        "verb": "rendre",
+        "pp": "rendu",
+        "family": "-re",
+        "subject": "Elles",
+        "aux": "ont",
+        "object": "les cartes",
+        "sector": 3
+      },
+      {
+        "id": "neon_19",
+        "verb": "préparer",
+        "pp": "préparé",
+        "family": "-er",
+        "subject": "Je",
+        "aux": "ai",
+        "object": "le circuit",
+        "sector": 3
+      },
+      {
+        "id": "neon_20",
+        "verb": "chercher",
+        "pp": "cherché",
+        "family": "-er",
+        "subject": "Tu",
+        "aux": "as",
+        "object": "le terminal",
+        "sector": 3
+      }
+    ]
+  },
+  "endingPatterns": [
+    {
+      "id": "pattern_er",
+      "label": "-er · visiter / regarder",
+      "answer": "-é"
+    },
+    {
+      "id": "pattern_ir",
+      "label": "-ir · finir / choisir",
+      "answer": "-i"
+    },
+    {
+      "id": "pattern_re",
+      "label": "-re · attendre / vendre",
+      "answer": "-u"
+    }
+  ]
+}

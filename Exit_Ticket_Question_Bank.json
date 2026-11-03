@@ -1,0 +1,206 @@
+{
+  "version": 2,
+  "minutes": "10 à 12",
+  "scope": "Avoir + participes passés réguliers",
+  "verbs": {
+    "photographier": {
+      "pp": "photographié",
+      "aux": "avoir",
+      "family": "-er"
+    },
+    "admirer": {
+      "pp": "admiré",
+      "aux": "avoir",
+      "family": "-er"
+    },
+    "visiter": {
+      "pp": "visité",
+      "aux": "avoir",
+      "family": "-er"
+    },
+    "finir": {
+      "pp": "fini",
+      "aux": "avoir",
+      "family": "-ir"
+    },
+    "attendre": {
+      "pp": "attendu",
+      "aux": "avoir",
+      "family": "-re"
+    },
+    "choisir": {
+      "pp": "choisi",
+      "aux": "avoir",
+      "family": "-ir"
+    },
+    "vendre": {
+      "pp": "vendu",
+      "aux": "avoir",
+      "family": "-re"
+    },
+    "regarder": {
+      "pp": "regardé",
+      "aux": "avoir",
+      "family": "-er"
+    }
+  },
+  "sections": [
+    {
+      "id": "aux",
+      "title": "A · Le bon auxiliaire",
+      "instruction": "Choisis la forme d’avoir qui convient au sujet."
+    },
+    {
+      "id": "pp",
+      "title": "B · Les participes passés",
+      "instruction": "Écris seulement le participe passé du verbe donné."
+    },
+    {
+      "id": "complete",
+      "title": "C · Deux mots à retrouver",
+      "instruction": "Écris les deux mots manquants : auxiliaire et participe passé."
+    },
+    {
+      "id": "repair",
+      "title": "D · Le réparateur de phrases",
+      "instruction": "Réécris la phrase entière en corrigeant le verbe."
+    },
+    {
+      "id": "transform",
+      "title": "E · Du présent au passé",
+      "instruction": "Transforme toute la phrase au passé composé."
+    }
+  ],
+  "questions": [
+    {
+      "id": "xt01",
+      "section": "aux",
+      "skill": "Auxiliaire",
+      "verb": "photographier",
+      "type": "choice",
+      "prompt": "J’___ photographié la tour Eiffel.",
+      "options": [
+        "ai",
+        "as",
+        "a"
+      ],
+      "answer": "ai",
+      "feedback": "Avec je, vérifie la forme d’avoir au présent."
+    },
+    {
+      "id": "xt02",
+      "section": "aux",
+      "skill": "Auxiliaire",
+      "verb": "admirer",
+      "type": "choice",
+      "prompt": "Vous ___ admiré les jardins.",
+      "options": [
+        "avons",
+        "avez",
+        "ont"
+      ],
+      "answer": "avez",
+      "feedback": "Avec vous, vérifie la forme d’avoir au présent."
+    },
+    {
+      "id": "xt03",
+      "section": "pp",
+      "skill": "Participes",
+      "verb": "visiter",
+      "type": "text",
+      "prompt": "visiter → …",
+      "answer": "visité",
+      "feedback": "Compare avec le modèle regarder → regardé. Attention à l’accent."
+    },
+    {
+      "id": "xt04",
+      "section": "pp",
+      "skill": "Participes",
+      "verb": "finir",
+      "type": "text",
+      "prompt": "finir → …",
+      "answer": "fini",
+      "feedback": "Compare avec le modèle choisir → choisi."
+    },
+    {
+      "id": "xt05",
+      "section": "pp",
+      "skill": "Participes",
+      "verb": "attendre",
+      "type": "text",
+      "prompt": "attendre → …",
+      "answer": "attendu",
+      "feedback": "Compare avec le modèle vendre → vendu."
+    },
+    {
+      "id": "xt06",
+      "section": "complete",
+      "skill": "Construction",
+      "verb": "visiter",
+      "type": "text",
+      "prompt": "Tu ___ un château. (visiter)",
+      "answer": "as visité",
+      "feedback": "Il faut deux mots. Vérifie avoir avec tu, puis le participe passé de visiter."
+    },
+    {
+      "id": "xt07",
+      "section": "complete",
+      "skill": "Construction",
+      "verb": "choisir",
+      "type": "text",
+      "prompt": "Nous ___ nos billets. (choisir)",
+      "answer": "avons choisi",
+      "feedback": "Il faut deux mots. Vérifie avoir avec nous, puis le modèle finir → fini."
+    },
+    {
+      "id": "xt08",
+      "section": "complete",
+      "skill": "Construction",
+      "verb": "vendre",
+      "type": "text",
+      "prompt": "Elles ___ leurs billets. (vendre)",
+      "answer": "ont vendu",
+      "feedback": "Il faut deux mots. Vérifie avoir avec elles, puis le modèle attendre → attendu."
+    },
+    {
+      "id": "xt09",
+      "section": "repair",
+      "skill": "Correction",
+      "verb": "regarder",
+      "type": "text",
+      "prompt": "Corrige : « Vous a regardé le spectacle. »",
+      "answer": "Vous avez regardé le spectacle.",
+      "feedback": "Garde la phrase entière. Le participe passé est déjà correct ; vérifie l’auxiliaire avec vous."
+    },
+    {
+      "id": "xt10",
+      "section": "repair",
+      "skill": "Correction",
+      "verb": "finir",
+      "type": "text",
+      "prompt": "Corrige : « Il a finir sa visite. »",
+      "answer": "Il a fini sa visite.",
+      "feedback": "Garde la phrase entière. Après a, il faut un participe passé et non un infinitif."
+    },
+    {
+      "id": "xt11",
+      "section": "transform",
+      "skill": "Transformation",
+      "verb": "photographier",
+      "type": "text",
+      "prompt": "Au passé composé : « Je photographie la tour Eiffel. »",
+      "answer": "J’ai photographié la tour Eiffel.",
+      "feedback": "Écris la phrase entière : j’ai + le participe passé du modèle en -er."
+    },
+    {
+      "id": "xt12",
+      "section": "transform",
+      "skill": "Transformation",
+      "verb": "attendre",
+      "type": "text",
+      "prompt": "Au passé composé : « Ils attendent le guide. »",
+      "answer": "Ils ont attendu le guide.",
+      "feedback": "Écris la phrase entière : avoir avec ils + le participe passé du modèle en -re."
+    }
+  ]
+}

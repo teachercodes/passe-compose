@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+node_modules/
+.test-output/
+*.log
+France_Miniature_Rapport_*.pdf
+France_Miniature_Historique_*.csv
